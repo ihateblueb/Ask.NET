@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+bin/
+obj/
+publish/
+release/
+artifacts/
+*.DotSettings.user
+
