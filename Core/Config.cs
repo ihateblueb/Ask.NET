@@ -11,6 +11,7 @@ public enum RegistrationOption
 
 public class Config
 {
+    public string Host { get; set; }
     public int Port { get; set; }
     public RegistrationOption Registrations { get; set; }
     public DatabaseSection Database { get; set; }

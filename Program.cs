@@ -22,4 +22,6 @@ app.MapStaticAssets();
 app.MapRazorPages()
     .WithStaticAssets();
 
-app.Run();
+Config config = app.Configuration.GetSection("AskNET").Get<Config>()!;
+
+app.Run($"http://{config.Host}:{config.Port}");
