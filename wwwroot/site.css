@@ -168,6 +168,10 @@ p {
             background-color: var(--bg2);
             border-radius: var(--br-md);
             height: min-content;
+
+            p {
+                font-weight: 400;
+            }
         }
     }
 }
