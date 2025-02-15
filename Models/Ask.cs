@@ -10,5 +10,7 @@ public class Ask
     public string Content { get; set; }
     public string Nickname { get; set; }
 
+    public string Response { get; set; }
+
     public string CreatedAt { get; set; }
 }
