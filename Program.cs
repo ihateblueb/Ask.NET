@@ -1,27 +1,45 @@
 using Ask.NET.Core;
+using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Ask.NET;
 
-builder.Services.AddRazorPages();
-builder.Services.AddControllers();
-builder.Configuration.AddJsonFile(Environment.GetEnvironmentVariable("ASKNET_CONFIGURATION") ?? "appsettings.json", optional: false, reloadOnChange: true);
-builder.Services.Configure<Config>(builder.Configuration.GetSection("AskNET"));
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+        builder.Configuration.AddJsonFile(Environment.GetEnvironmentVariable("ASKNET_CONFIG") ?? "configuration.json", optional: false, reloadOnChange: true);
 
-app.UseExceptionHandler("/Error");
-app.UseHsts();
+        var connectionString = "postgres://";
+        connectionString += builder.Configuration.GetSection("Database").GetValue<string>("User");
+        connectionString += "@";
+        connectionString += builder.Configuration.GetSection("Database").GetValue<string>("Password");
+        connectionString += "@";
+        connectionString += builder.Configuration.GetSection("Database").GetValue<string>("Host");
+        connectionString += ":";
+        connectionString += builder.Configuration.GetSection("Database").GetValue<string>("Port");
+        connectionString += "/";
+        connectionString += builder.Configuration.GetSection("Database").GetValue<string>("Name");
 
-app.MapControllers();
+        builder.Services.AddDbContext<Context>(options =>
+            options.UseNpgsql(connectionString));
 
-app.UseHttpsRedirection();
+        builder.Services.AddControllers();
 
-app.UseRouting();
+        var app = builder.Build();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-    .WithStaticAssets();
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Error", createScopeForErrors: true);
+            app.UseHsts();
+        }
 
-Config config = app.Configuration.GetSection("AskNET").Get<Config>()!;
+        app.UseAntiforgery();
+        app.MapControllers();
 
-app.Run($"http://{config.Host}:{config.Port}");
+        app.MapStaticAssets();
+
+        app.Run($"http://{app.Configuration.GetValue<string>("Host")}:{app.Configuration.GetValue<string>("Port")}");
+    }
+}

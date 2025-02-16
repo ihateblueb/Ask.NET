@@ -42,19 +42,19 @@ namespace Ask.NET.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("To")
-                        .IsRequired()
+                    b.Property<string>("ToId")
                         .HasColumnType("text");
 
-                    b.Property<string>("Visibility")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Visibility")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Warning")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ToId");
 
                     b.ToTable("Asks");
                 });
@@ -137,6 +137,15 @@ namespace Ask.NET.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Ask.NET.Models.Ask", b =>
+                {
+                    b.HasOne("Ask.NET.Models.User", "To")
+                        .WithMany()
+                        .HasForeignKey("ToId");
+
+                    b.Navigation("To");
                 });
 
             modelBuilder.Entity("Ask.NET.Models.Auth", b =>

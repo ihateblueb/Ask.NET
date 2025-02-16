@@ -1,0 +1,21 @@
+{
+  "Host": "localhost",
+  "Port": 5408,
+  "Registrations": "Closed",
+  "Database": {
+    "Port": 5432,
+    "Host": "localhost",
+    "Name": "asknet",
+    "User": "asknet",
+    "Password": "asknet"
+  },
+  "Limits": {
+    "Username": 100,
+    "Password": 100,
+    "Prompt": 8000,
+    "Warning": 4000,
+    "Ask": 8000,
+    "Url": 500,
+    "Alt": 4000
+  }
+}

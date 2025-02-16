@@ -7,6 +7,7 @@ namespace Ask.NET.Controllers.Api;
 
 public class AskController : Controller
 {
+    private readonly Context _context;
     private readonly IOptions<Config> config;
 
     [HttpPost]

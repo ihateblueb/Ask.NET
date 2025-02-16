@@ -133,6 +133,14 @@ p {
     }
 }
 
+.btnCtn {
+    display: flex;
+    gap: 8px;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .txa {
     min-height: 100px
 }
