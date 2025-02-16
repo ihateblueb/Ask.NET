@@ -1,4 +1,5 @@
 using Ask.NET.Core;
+using Ask.NET.Components;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ask.NET;
@@ -27,6 +28,9 @@ public class Program
 
         builder.Services.AddControllers();
 
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
+
         var app = builder.Build();
 
         if (!app.Environment.IsDevelopment())
@@ -39,6 +43,9 @@ public class Program
         app.MapControllers();
 
         app.MapStaticAssets();
+
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
         app.Run($"http://{app.Configuration.GetValue<string>("Host")}:{app.Configuration.GetValue<string>("Port")}");
     }
